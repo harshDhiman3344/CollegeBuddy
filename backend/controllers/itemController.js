@@ -28,7 +28,7 @@ export const createItem = async (req, res) => {
     });
 
     await item.save();
-    await item.populate("seller", "username email");
+    await item.populate("seller", "username email clerkId");
 
     res.status(201).json({
       success: true,
@@ -48,7 +48,7 @@ export const createItem = async (req, res) => {
 export const getItems = async (req, res) => {
   try {
     const items = await Item.find()
-      .populate("seller", "username email")
+      .populate("seller", "username email clerkId")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -69,7 +69,7 @@ export const getItemById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const item = await Item.findById(id).populate("seller", "username email");
+    const item = await Item.findById(id).populate("seller", "username email clerkId");
 
     if (!item) {
       return res.status(404).json({
